@@ -1,13 +1,15 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { Context } from '@actions/github/lib/context.js';
 import * as _ from 'lodash';
 
-function stripTime(date) {
+type GithubClient = ReturnType<typeof github.getOctokit>;
+
+function stripTime(date: Date) {
     return new Date(date.toDateString());
 }
 
-
-function getMilestoneNumber(client, milestoneTitle, useRegex) {
+function getMilestoneNumber(client: GithubClient, milestoneTitle: string, useRegex: boolean) {
     return client.rest.issues.listMilestones({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -30,7 +32,7 @@ function getMilestoneNumber(client, milestoneTitle, useRegex) {
     });
 }
 
-async function updateIssue(client, issueNumber, milestoneNumber) {
+async function updateIssue(client: GithubClient, issueNumber: number, milestoneNumber: number) {
     return client.rest.issues.update({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -42,7 +44,7 @@ async function updateIssue(client, issueNumber, milestoneNumber) {
     });
 }
 
-async function updatePR(client, prNumber, milestoneNumber) {
+async function updatePR(client: GithubClient, prNumber: number, milestoneNumber: number) {
     return client.rest.pulls.update({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -55,7 +57,7 @@ async function updatePR(client, prNumber, milestoneNumber) {
 }
 
 try {
-    const context = github.context;
+    const context: Context = github.context;
 
     if (context.eventName !== 'pull_request' && context.eventName !== 'issues') {
         throw new Error('This action is only supported for pull_request or issues events');
@@ -72,12 +74,12 @@ try {
 
     const client = github.getOctokit(token);
 
-    const milestoneNumber = await getMilestoneNumber(client, milestoneTitle, useRegex);
+    const milestoneNumber = await getMilestoneNumber(client, milestoneTitle, useRegex) as number;
     const issueNumber = event.issue.number;
     const prNumber = event.pull_request.number;
 
     if (context.eventName === 'pull_request') await updatePR(client, prNumber, milestoneNumber);
     else await updateIssue(client, issueNumber, milestoneNumber);
-} catch (error) {
-    core.setFailed(error.message);
+} catch (error: unknown) {
+    core.setFailed(`${error}`);
 }
