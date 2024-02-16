@@ -1,6 +1,6 @@
 {
   "name": "milestone-automation",
-  "version": "0.8",
+  "version": "0.9",
   "type": "module",
   "description": "A GitHub Action to automate the assignment of milestones to issues and pull requests",
   "main": "src/index.js",

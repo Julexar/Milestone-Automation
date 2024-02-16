@@ -57,9 +57,9 @@ try {
     const context = github.context;
     const event = context.payload;
 
-    const token = core.getInput('github-token', { required: true });
-    const milestoneTitle = core.getInput('milestone-title', { required: true });
-    const useRegex = Boolean(core.getInput('use-regex', { required: false }));
+    const token = core.getInput('token', { required: true });
+    const milestoneTitle = core.getInput('milestone', { required: true });
+    const useRegex = Boolean(core.getInput('regex', { required: false }));
 
     const client = github.getOctokit(token);
     const milestoneNumber = Number(await getMilestoneNumber(client, milestoneTitle, useRegex));
