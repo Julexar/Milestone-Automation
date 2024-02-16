@@ -16,4 +16,5 @@ jobs:
       - uses: Julexar/Milestone-Automation@v1.0
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
-          milestone: "v1.0"
+          milestone: "v1.*"
+          use-glob: 'true'
