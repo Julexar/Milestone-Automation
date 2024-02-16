@@ -15,5 +15,5 @@ jobs:
     steps:
       - uses: Julexar/Milestone-Automation@v0.8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WORKFLOW_TOKEN }}
           milestone: "v1.0"
