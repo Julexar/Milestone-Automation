@@ -1,15 +1,13 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { Context } from '@actions/github/lib/context';
 import * as _ from 'lodash';
 
-type GithubClient = ReturnType<typeof github.getOctokit>;
-
-function stripTime(date: Date) {
+function stripTime(date) {
     return new Date(date.toDateString());
 }
 
-function getMilestoneNumber(client: GithubClient, milestoneTitle: string, useRegex: boolean) {
+
+function getMilestoneNumber(client, milestoneTitle, useRegex) {
     return client.rest.issues.listMilestones({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -32,7 +30,7 @@ function getMilestoneNumber(client: GithubClient, milestoneTitle: string, useReg
     });
 }
 
-async function updateIssue(client: GithubClient, issueNumber: number, milestoneNumber: number) {
+async function updateIssue(client, issueNumber, milestoneNumber) {
     return client.rest.issues.update({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -44,7 +42,7 @@ async function updateIssue(client: GithubClient, issueNumber: number, milestoneN
     });
 }
 
-async function updatePR(client: GithubClient, prNumber: number, milestoneNumber: number) {
+async function updatePR(client, prNumber, milestoneNumber) {
     return client.rest.pulls.update({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -57,7 +55,7 @@ async function updatePR(client: GithubClient, prNumber: number, milestoneNumber:
 }
 
 try {
-    const context: Context = github.context;
+    const context = github.context;
 
     if (context.eventName !== 'pull_request' && context.eventName !== 'issues') {
         throw new Error('This action is only supported for pull_request or issues events');
@@ -74,7 +72,7 @@ try {
 
     const client = github.getOctokit(token);
 
-    const milestoneNumber = await getMilestoneNumber(client, milestoneTitle, useRegex) as number;
+    const milestoneNumber = await getMilestoneNumber(client, milestoneTitle, useRegex);
     const issueNumber = event.issue.number;
     const prNumber = event.pull_request.number;
 
