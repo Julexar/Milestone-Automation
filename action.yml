@@ -17,7 +17,7 @@ inputs:
   milestone:
     description: 'Name of the Milestone or glob pattern'
     required: true
-  regex:
+  use-glob:
     required: false
     default: 'false'
     description: 'Use the milestone as a regex pattern'

@@ -58,10 +58,10 @@ try {
 
     const token = core.getInput('token', { required: true });
     const milestoneTitle = core.getInput('milestone', { required: true });
-    const useRegex = Boolean(core.getInput('regex', { required: false }));
+    const useGlob = Boolean(core.getInput('use-glob', { required: false }));
 
     const client = github.getOctokit(token);
-    const milestoneNumber = Number(await getMilestoneNumber(client, milestoneTitle, useRegex));
+    const milestoneNumber = Number(await getMilestoneNumber(client, milestoneTitle, useGlob));
 
     switch (context.eventName) {
         case 'pull_request':
