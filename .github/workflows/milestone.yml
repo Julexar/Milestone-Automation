@@ -1,0 +1,19 @@
+name: Milestone Automation
+
+on:
+  pull_request:
+    types:
+      - opened
+  issues:
+    types:
+      - opened
+
+jobs:
+  add:
+    name: Add Milestone
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Julexar/Milestone-Automation@v0.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          milestone: "v1.0"
