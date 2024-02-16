@@ -46,13 +46,13 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
           milestone: "Milestone *"
-          regex: 'true'
+          use-glob: 'true'
 ```
 
 # Inputs
 
-| Name          | Description                                                                                   | Required | Default |
-| ------------- | --------------------------------------------------------------------------------------------- | -------- | ------- |
-| `token`       | GitHub Token. You can get one [here](https://github.com/settings/tokens)                      | `true`   |         |
-| `milestone`   | Name of the Milestone or glob pattern                                                         | `true`   |         |
-| `regex`       | Tigger pattern matching using globs with [minimatch](https://www.npmjs.com/package/minimatch) | `false`  | `false` |
+| Name          | Description                                                                                   | Required | Default   |
+| ------------- | --------------------------------------------------------------------------------------------- | -------- | --------- |
+| `token`       | GitHub Token. You can get one [here](https://github.com/settings/tokens)                      | `true`   |           |
+| `milestone`   | Name of the Milestone or glob pattern                                                         | `true`   |           |
+| `use-glob`    | Tigger pattern matching using globs with [minimatch](https://www.npmjs.com/package/minimatch) | `false`  | `'false'` |
