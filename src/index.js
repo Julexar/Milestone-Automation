@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import * as _ from 'lodash';
+import { minimatch } from 'minimatch';
 
 function stripTime(date) {
     return new Date(date.toDateString());
@@ -12,11 +12,10 @@ function getMilestoneNumber(client, milestoneTitle, useRegex) {
         repo: github.context.repo.repo,
     })
     .then((response) => {
-        const regExp = _.escapeRegExp(milestoneTitle);
         const today = stripTime(new Date());
         const milestone = response.data
         .filter((milestone) => !milestone.due_on || stripTime(new Date(milestone.due_on)) >= today)
-        .find((milestone) => useRegex ? new RegExp(regExp).test(milestone.title) : milestone.title === milestoneTitle);
+        .find((milestone) => useRegex ? minimatch(milestone.title, milestoneTitle, { nocase: true, debug: core.isDebug() }) : milestone.title === milestoneTitle);
         
         const milestoneNumber = milestone?.number;
 
