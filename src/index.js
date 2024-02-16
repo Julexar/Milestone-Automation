@@ -28,23 +28,11 @@ function getMilestoneNumber(client, milestoneTitle, useRegex) {
     });
 }
 
-async function updateIssue(client, issueNumber, milestoneNumber) {
+async function updateWithMilestone(client, number, milestoneNumber) {
     return client.rest.issues.update({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        issue_number: issueNumber,
-        milestone: milestoneNumber,
-    })
-    .catch((error) => {
-        core.setFailed(error.message);
-    });
-}
-
-async function updatePR(client, prNumber, milestoneNumber) {
-    return client.rest.pulls.update({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        pull_number: prNumber,
+        issue_number: number,
         milestone: milestoneNumber,
     })
     .catch((error) => {
@@ -63,18 +51,10 @@ try {
     const client = github.getOctokit(token);
     const milestoneNumber = Number(await getMilestoneNumber(client, milestoneTitle, useGlob));
 
-    switch (context.eventName) {
-        case 'pull_request':
-            if (context.eventName === 'pull_request' && !event.pull_request?.number) throw new Error('Could not get PR number from Payload');
-            await updatePR(client, event.pull_request.number, milestoneNumber);
-        break;
-        case 'issues':
-            if (context.eventName === 'issues' && !event.issue?.number) throw new Error('Could not get Issue number from Payload');
-            await updateIssue(client, event.issue.number, milestoneNumber);
-        break;
-        default:
-        throw new Error('This action is only supported for pull_request or issues events');
-    }
+    if (context.eventName === 'pull_request' && !event.pull_request?.number) throw new Error('Could not get PR number from Payload');
+    else if (context.eventName === 'issues' && !event.issue?.number) throw new Error('Could not get Issue number from Payload');
+
+    await updateWithMilestone(client, event.pull_request?.number || event.issue?.number, milestoneNumber);
 } catch (error) {
     core.setFailed(error.message);
 }
