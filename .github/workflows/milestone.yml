@@ -13,7 +13,7 @@ jobs:
     name: Add Milestone
     runs-on: ubuntu-latest
     steps:
-      - uses: Julexar/Milestone-Automation@v0.9
+      - uses: Julexar/Milestone-Automation@v0.95
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
           milestone: "v1.0"
