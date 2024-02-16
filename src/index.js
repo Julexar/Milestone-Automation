@@ -55,28 +55,27 @@ async function updatePR(client, prNumber, milestoneNumber) {
 
 try {
     const context = github.context;
-
-    if (context.eventName !== 'pull_request' && context.eventName !== 'issues') {
-        throw new Error('This action is only supported for pull_request or issues events');
-    }
-
     const event = context.payload;
-
-    if (!event.pull_request?.number) throw new Error('Could not get PR number from Payload')
-    if (!event.issue?.number) throw new Error('Could not get Issue number from Payload')
 
     const token = core.getInput('github-token', { required: true });
     const milestoneTitle = core.getInput('milestone-title', { required: true });
     const useRegex = Boolean(core.getInput('use-regex', { required: false }));
 
     const client = github.getOctokit(token);
-
     const milestoneNumber = Number(await getMilestoneNumber(client, milestoneTitle, useRegex));
-    const issueNumber = event.issue.number;
-    const prNumber = event.pull_request.number;
 
-    if (context.eventName === 'pull_request') await updatePR(client, prNumber, milestoneNumber);
-    else await updateIssue(client, issueNumber, milestoneNumber);
+    switch (context.eventName) {
+        case 'pull_request':
+            if (context.eventName === 'pull_request' && !event.pull_request?.number) throw new Error('Could not get PR number from Payload');
+            await updatePR(client, event.pull_request.number, milestoneNumber);
+        break;
+        case 'issues':
+            if (context.eventName === 'issues' && !event.issue?.number) throw new Error('Could not get Issue number from Payload');
+            await updateIssue(client, event.issue.number, milestoneNumber);
+        break;
+        default:
+        throw new Error('This action is only supported for pull_request or issues events');
+    }
 } catch (error) {
     core.setFailed(error.message);
 }
