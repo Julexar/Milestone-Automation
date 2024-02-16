@@ -2,7 +2,7 @@
 Automatically adds a Milestone to a pull requests or issue, based on the name/pattern of the Milestone.
 
 # Usage
-Example `milestones.yml` (no regex)
+Example `milestones.yml` (without patterns)
 ```yml
 name: Milestone Automation
 
@@ -25,7 +25,7 @@ jobs:
           milestone: "Milestone Name"
 ```
 
-Example `milestones.yml` (with regex)
+Example `milestones.yml` (with patterns)
 ```yml
 name: Milestone Automation
 
@@ -44,15 +44,15 @@ jobs:
     steps:
       - uses: Julexar/Milestone-Automation@1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          milestone: "/^v\d+\.\d+$/"
-          regex: 'true'
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+          milestone: "Milestone *"
+          use-glob: 'true'
 ```
 
 # Inputs
 
-| Name          | Description                                                              | Required | Default |
-| ------------- | ------------------------------------------------------------------------ | -------- | ------- |
-| `token`       | GitHub Token. You can get one [here](https://github.com/settings/tokens) | `true`   |         |
-| `milestone`   | Name of the Milestone or Regular Expression                              | `true`   |         |
-| `regex`       | Tigger pattern matching using Regular Expression                         | `false`  | `false` |
+| Name          | Description                                                                                   | Required | Default   |
+| ------------- | --------------------------------------------------------------------------------------------- | -------- | --------- |
+| `token`       | GitHub Token. You can get one [here](https://github.com/settings/tokens)                      | `true`   |           |
+| `milestone`   | Name of the Milestone or glob pattern                                                         | `true`   |           |
+| `use-glob`    | Tigger pattern matching using globs with [minimatch](https://www.npmjs.com/package/minimatch) | `false`  | `'false'` |
