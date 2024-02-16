@@ -7,8 +7,8 @@ branding:
   color: blue
 
 runs:
-  using: 'node16'
-  main: 'src/index.js'
+  using: 'node12'
+  main: 'src/index.ts'
 
 inputs:
   token:
