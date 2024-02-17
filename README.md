@@ -19,7 +19,7 @@ jobs:
     name: Add Milestone
     runs-on: ubuntu-latest
     steps:
-      - uses: Julexar/Milestone-Assigner@1.0
+      - uses: Julexar/Milestone-Assigner@v1.0
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
           milestone: "Milestone Name"
@@ -42,7 +42,7 @@ jobs:
     name: Add Milestone
     runs-on: ubuntu-latest
     steps:
-      - uses: Julexar/Milestone-Assigner@1.0
+      - uses: Julexar/Milestone-Assigner@v1.0
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
           milestone: "Milestone *"
