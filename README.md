@@ -4,7 +4,7 @@ Automatically adds a Milestone to a pull requests or issue, based on the name/pa
 # Usage
 Example `milestones.yml` (without patterns)
 ```yml
-name: Milestone Automation
+name: Milestone Assigner
 
 on:
   pull_request:
@@ -27,7 +27,7 @@ jobs:
 
 Example `milestones.yml` (with patterns)
 ```yml
-name: Milestone Automation
+name: Milestone Assigner
 
 on:
   pull_request:
