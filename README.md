@@ -1,4 +1,4 @@
-# Milestone-Automation
+# Milestone-Assigner
 Automatically adds a Milestone to a pull requests or issue, based on the name/pattern of the Milestone.
 
 # Usage
