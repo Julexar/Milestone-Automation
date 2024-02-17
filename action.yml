@@ -1,4 +1,4 @@
-name: 'Milestone Automation'
+name: 'Milestone Assigner'
 description: 'Automatically add a Milestone to a Pull Request or Issue when opened'
 author: 'Julexar'
 
